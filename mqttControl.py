@@ -7,15 +7,17 @@ import os
 import signal
 import sys
 import argparse
+
+#string to create GStreamer subprocess
 process_str='raspivid -t 0 -cd MJPEG -w 640 -h 480'
 process_str+=' -fps 40 -b 8000000 -o - | gst-launch-1.0 fdsrc !'
 process_str+=' "image/jpeg,framerate=40/1" ! jpegparse ! rtpjpegpay !'
 process_str+=' udpsink ' #host=192.168.41.3 port=4001'
 
-topic='rpi/#'
-ip='172.20.5.22'
-port='1883'
-gport='4001'
+topic='rpi/#' #mqtt topic
+ip='172.20.5.22' #server ip
+port='1883' #mqtt port
+gport='4001' #GStreamer port
 logic=logic.Logic()
 def parse_args():
 	parser = argparse.ArgumentParser()
@@ -35,6 +37,7 @@ def parse_args():
 def on_connect(client, userdata, flags, rc):
 	print("Connected with result code "+str(rc))
 	client.subscribe(topic)
+
 def on_message(client, userdata, msg):
 	if msg.topic=='rpi/motors':
 		handleMotors(str(msg.payload))
@@ -43,7 +46,8 @@ def on_message(client, userdata, msg):
 	elif msg.topic=='rpi/object_tracking':
 		handleObjectTracking(str(msg.payload))
 	else:
-	    	print(msg.topic+" "+str(msg.payload))
+		print(msg.topic+" "+str(msg.payload))
+
 def handleMotors(msg):
 	if msg=='forward':
 		logic.robot.goForward()
@@ -68,8 +72,8 @@ def handleCamera(msg):
         else:
                 logic.robot.servoUD.stop()
 		logic.robot.servoLR.stop()
+
 def handleObjectTracking(msg):
-#	time.sleep(0.01)
 	data=json.loads(msg.decode())
         x_offset=data.get("xoff")
 	radius=data.get("radius")

@@ -7,7 +7,7 @@ import servos
 import time
 
 SPEED_VAR_LR=0.002
-SPEED_VAR_FB=0.01 # zrobic cos z tym
+SPEED_VAR_FB=0.01
 
 def getch():
     import termios

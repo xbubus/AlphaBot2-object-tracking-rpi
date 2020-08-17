@@ -15,9 +15,9 @@ class Servo():
 		self.currentVal=self.centerVal
 	def checkPosition(self):
 		if self.currentVal <=500:
-                        self.currentVal=500
-                elif self.currentVal >=2500:
-                        self.currentVal=2500
+				self.currentVal=500
+		elif self.currentVal >=2500:
+				self.currentVal=2500
 	def move(self,val):
 		self.currentVal-=val
 		self.checkPosition()
@@ -35,10 +35,10 @@ class Servo():
 			self.currentVal=self.centerVal+( deg*(2500-self.centerVal)/90 )
 		else:
 			self.currentVal=self.centerVal+( deg*(self.centerVal-500)/90)
-		self.checkPosition()
-		self.pca.setServoPulse(self.channel,self.currentVal)
+			self.checkPosition()
+			self.pca.setServoPulse(self.channel,self.currentVal)
 	def stop(self):
-		self.pca.setPWM(self.channel,0,0)
+			self.pca.setPWM(self.channel,0,0)
 		
 if __name__ =='__main__':
 	print("main")
