@@ -61,8 +61,6 @@ class Logic():
 			self.prev_error=self.error
 			self.pTerm=abs(int(self.error*self.kp))
 			self.dTerm=abs(int(self.errorD*self.kd))
-			if self.prev_error==0:
-				self.dTerm=0
 			self.pwm=self.defaultPWM+self.pTerm+self.dTerm
 			if xoff<0: #ball is on left
 				print ("ball is on left",self.pwm)
